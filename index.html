@@ -27,8 +27,8 @@
     --ok:#4CAF50;
   }
   *{box-sizing:border-box;}
-  html,body{margin:0;height:100%;background:var(--bg);color:var(--primary);font-family:var(--font-body);overflow:hidden;}
-  #app{display:flex;flex-direction:column;height:100%;}
+  html,body{margin:0;height:100%;min-height:100%;background:var(--bg);color:var(--primary);font-family:var(--font-body);overflow:hidden;}
+  #app{display:flex;flex-direction:column;height:100%;min-height:0;}
 
   header{
     padding:var(--sp-3) var(--sp-5);border-bottom:1px solid var(--primary);
@@ -100,16 +100,6 @@
   .menu-btn.primary{background:var(--primary);color:var(--bg);}
   .menu-btn.primary:hover{background:var(--accent);border-color:var(--accent);color:#fff;}
   .menu-foot{font-size:11px;color:#888;text-align:center;margin-top:6px;}
-  .menu-social{display:flex;gap:5px;justify-content:center;margin-top:2px;}
-  .menu-social a{
-    flex:1;display:flex;align-items:center;justify-content:center;gap:4px;
-    background:var(--bg);border:1px solid var(--primary);color:var(--primary);
-    font-family:var(--font-body);font-weight:700;font-size:10px;
-    padding:8px 3px;text-decoration:none;cursor:pointer;border-radius:0;
-    letter-spacing:.01em;transition:border-color .15s ease,color .15s ease;
-  }
-  .menu-social a:hover{border-color:var(--accent);color:var(--accent);}
-  .menu-social a .ic{font-size:12px;}
   .menu-version{font-size:10px;color:#999;text-align:center;margin-top:2px;letter-spacing:.02em;}
   .menu-settings-row{display:flex;align-items:center;justify-content:center;gap:var(--sp-4);flex-wrap:wrap;}
   .menu-toggle-row{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--primary);cursor:pointer;user-select:none;}
@@ -208,7 +198,7 @@
   @keyframes autosaveFade{0%{opacity:1;}70%{opacity:1;}100%{opacity:0;}}
 
   #buildScreen{padding:0;}
-  #gridCanvas{position:absolute;inset:0;width:100%;height:100%;display:block;cursor:crosshair;background:var(--void);z-index:0;}
+  #gridCanvas{position:absolute;inset:0;width:100%;height:100%;display:block;cursor:crosshair;background:var(--void);z-index:0;touch-action:none;}
 
   .float-palette{top:var(--sp-5);left:var(--sp-5);width:240px;max-height:calc(100% - 2*var(--sp-5));overflow-y:auto;display:flex;flex-direction:column;gap:var(--sp-2);}
   .part-card{background:var(--bg);border:1px solid var(--primary);padding:var(--sp-3);cursor:pointer;border-radius:0;}
@@ -256,7 +246,7 @@
   .float-hint{bottom:var(--sp-5);left:var(--sp-5);font-size:10.5px;color:#444;padding:6px 10px;}
 
   #flightScreen{padding:0;}
-  #flightCanvas{position:absolute;inset:0;width:100%;height:100%;display:block;background:var(--void);z-index:0;cursor:crosshair;}
+  #flightCanvas{position:absolute;inset:0;width:100%;height:100%;display:block;background:var(--void);z-index:0;cursor:crosshair;touch-action:none;}
 
   .float-hud{top:var(--sp-5);left:var(--sp-5);width:206px;}
   .hline{display:flex;justify-content:space-between;gap:var(--sp-4);font-size:11.5px;padding:2px 0;}
@@ -397,6 +387,40 @@
     max-width:70%;text-align:center;
   }
 
+  @media (pointer:coarse){
+    button, select, input[type="checkbox"], input[type="range"], .part-card, .ship-row, .stage-row, .cheat-row, .menu-proc-row {
+      min-height:44px;
+    }
+    button{padding-top:10px;padding-bottom:10px;}
+    input[type="checkbox"]{width:22px;height:22px;}
+    .vol-ctl input[type=range]{height:24px;}
+    .vol-ctl input[type=range]::-webkit-slider-thumb{width:22px;height:22px;}
+    .vol-ctl input[type=range]::-moz-range-thumb{width:22px;height:22px;}
+    .screen{overscroll-behavior:contain;-webkit-overflow-scrolling:touch;}
+  }
+  @media (max-width:600px){
+    #buildScreen .float-palette{top:6px;left:6px;width:52vw;max-height:38%;padding:8px;}
+    #buildScreen .float-stats{top:6px;right:6px;width:40vw;padding:8px;}
+    #buildScreen .float-savedrockets{top:auto !important;right:6px;bottom:142px;width:42vw;max-height:25%;padding:8px;}
+    #buildScreen .float-panel h3{font-size:11px;margin-bottom:5px;}
+    #buildScreen .part-card{padding:6px;}
+    #buildScreen .part-card .pstats{font-size:9px;}
+    #buildScreen #buildActionBar{left:6px;right:58px;bottom:6px;transform:none;max-width:none;display:flex;flex-wrap:wrap;gap:5px;padding:6px;}
+    #buildScreen #buildActionBar .btn{flex:1 1 42%;min-width:0;padding:8px 5px;font-size:10px;}
+    #buildScreen .float-zoom{right:6px;bottom:6px;gap:3px;padding:3px;}
+    #buildScreen .float-zoom .icon-btn{width:42px;height:42px;}
+    #flightScreen #controls-bar{left:6px;right:6px;bottom:6px;transform:none;max-width:none;max-height:38vh;overflow-y:auto;justify-content:flex-start;gap:6px;padding:6px;}
+    #flightScreen #warpGroup{width:100%;}
+    #flightScreen .warp-grid{grid-template-columns:repeat(4,minmax(42px,1fr));width:100%;}
+    #flightScreen .ctl-group{flex-wrap:wrap;}
+    header{gap:8px;padding:8px;}
+    header h1{font-size:17px;}
+    .header-actions{gap:6px;}
+    .mode-btn{padding:10px 9px;font-size:11px;}
+    .menu-wrap{width:100%;padding:10px;align-items:flex-start;}
+    .menu-card{width:100%;max-height:calc(100dvh - 20px);overflow-y:auto;}
+    .float-panel{max-width:calc(100vw - 16px);}
+  }
   @media (max-width:900px), (max-height:650px){
     :root{ --sp-5:10px; --sp-4:8px; }
     .float-palette{width:170px;}
@@ -423,7 +447,7 @@
     <h1>Spaceflight Sim</h1>
     <div class="header-actions">
       <div class="vol-ctl" title="Music volume">
-        <span class="vol-icon" id="volIcon">🔊</span>
+        <span class="vol-icon" id="volIcon">VOL</span>
         <input type="range" id="volSlider" min="0" max="100" value="35" step="1">
       </div>
       <button class="mode-btn" id="toBuildBtn" style="display:none;">← Back to Build</button>
@@ -441,17 +465,11 @@
           <div class="menu-sub">Made by CatPrinceHQ - Some modded features that made it into the main game are by KampfGuy.</div>
           <button class="menu-btn primary" id="menuPlayBtn">Play!</button>
           <div class="menu-settings-row">
-            <button class="menu-btn secondary" id="darkModeBtn">🌙 Dark Mode</button>
+            <button class="menu-btn secondary" id="darkModeBtn">Dark Mode</button>
             <label class="menu-toggle-row" for="cheatsMasterToggle" id="cheatsToggleRow">
               <input type="checkbox" id="cheatsMasterToggle">
               <span>Enable Cheats</span>
             </label>
-          </div>
-          <div class="menu-social">
-            <a href="https://youtube.com/@catprincehq" target="_blank" rel="noopener"><span class="ic">▶</span>Youtube</a>
-            <a href="https://discord.gg/catprincehq" target="_blank" rel="noopener"><span class="ic">💬</span>Discord</a>
-            <a href="https://www.tiktok.com/@catprince.hq?lang=en" target="_blank" rel="noopener"><span class="ic">♫</span>Tiktok</a>
-            <a href="https://github.com/CatPrinceHQ2/SpaceflightSimulatorInHTML" target="_blank" rel="noopener"><span class="ic">🐙</span>Github</a>
           </div>
           <label class="menu-proc-row" for="procPlanetsToggle" id="procPlanetsRow">
             <span class="menu-proc-labels">
@@ -487,13 +505,13 @@
         <div class="menu-col-divider"></div>
         <div class="menu-col-side" id="menuSideCard">
           <div class="menu-side-title">More</div>
-          <button class="menu-btn primary" id="tutorialBtn">🎓 Tutorial</button>
-          <button class="menu-btn" id="campaignBtn" disabled title="Coming in vR1.7.0">🏆 Campaign</button>
+          <button class="menu-btn primary" id="tutorialBtn">Tutorial</button>
+          <button class="menu-btn" id="campaignBtn" disabled title="Coming in vR1.7.0">Campaign</button>
           <div class="menu-side-divider"></div>
           <button class="menu-btn" id="exportSaveBtn">⬆ Export Save</button>
           <button class="menu-btn" id="loadSaveBtn">⬇ Load Save</button>
           <div class="menu-side-divider"></div>
-          <button class="menu-btn" id="savesToggleBtn">🗂 Saves ▾</button>
+          <button class="menu-btn" id="savesToggleBtn">Saves ▾</button>
           <div id="savesSlotsWrap" style="display:none;">
             <div class="save-slot-row" data-slot="1">
               <span class="save-slot-label">Slot 1</span>
@@ -546,7 +564,9 @@
         <button class="btn" id="saveRocketBtn">Save Rocket</button>
         <button class="btn primary" id="launchBtn">Launch ▲</button>
         <button class="btn toggle" id="symmetryBtn" title="Mirror part placement across the centerline"><span class="toggle-dot"></span>Symmetry</button>
-        <button class="btn toggle" id="dragModeBtn" title="Drag across the grid to place or delete parts"><span class="toggle-dot"></span>Drag Mode</button>
+        <button class="btn toggle" id="dragModeBtn" title="Drag across the grid to place parts"><span class="toggle-dot"></span>Drag Place</button>
+        <button class="btn toggle" id="touchDeleteBtn" title="Tap or drag over a part to remove it"><span class="toggle-dot"></span>Delete Parts</button>
+        <button class="btn" id="rotatePartBtn" title="Rotate selected part">Rotate</button>
       </div>
 
       <div class="float-panel float-savedrockets" id="savedRocketsPanel">
@@ -566,7 +586,7 @@
         </div>
       </div>
 
-      <div class="float-panel float-hint" id="buildHint">Click: place part &nbsp;·&nbsp; Right-click: remove &nbsp;·&nbsp; R: rotate 90&deg; (hover a placed part to rotate it) &nbsp;·&nbsp; Drag: pan &nbsp;·&nbsp; Scroll: zoom</div>
+      <div class="float-panel float-hint" id="buildHint">Tap: place part &nbsp;·&nbsp; Delete Parts: tap to remove &nbsp;·&nbsp; Rotate: turn part 90&deg; &nbsp;·&nbsp; Drag: pan/place &nbsp;·&nbsp; Zoom buttons</div>
     </div>
 
     <div class="screen" id="flightScreen">
@@ -672,7 +692,7 @@
           <span class="ctl-label">Throttle</span>
           <input type="range" id="throttleSlider" min="0" max="100" value="100">
         </div>
-        <div class="ctl-group"><span class="ctl-label">Rotate ◄ A/D ►</span></div>
+        <div class="ctl-group"><span class="ctl-label">Rotate</span><button class="warp-btn rotate-hold" data-key="arrowleft" aria-label="Rotate left">◀</button><button class="warp-btn rotate-hold" data-key="arrowright" aria-label="Rotate right">▶</button></div>
         <div class="ctl-group" id="warpGroup"><span class="ctl-label">Warp</span></div>
         <div class="ctl-group" id="customWarpGroup">
           <span class="ctl-label">Custom</span>
@@ -769,7 +789,7 @@
   }
   const _savedSettings = loadSettings();
   if (_savedSettings.darkMode) document.body.classList.add("dark-mode");
-  el("darkModeBtn").textContent = document.body.classList.contains("dark-mode") ? "☀️ Light Mode" : "🌙 Dark Mode";
+  el("darkModeBtn").textContent = document.body.classList.contains("dark-mode") ? "Light Mode" : "Dark Mode";
   cheatsEnabled = !!_savedSettings.cheatsEnabled;
   totalPlaySeconds = typeof _savedSettings.totalPlaySeconds === "number" ? _savedSettings.totalPlaySeconds : 0;
   devUnlocked = !!_savedSettings.devUnlocked;
@@ -795,7 +815,7 @@
   });
   el("darkModeBtn").onclick = () => {
     const dark = document.body.classList.toggle("dark-mode");
-    el("darkModeBtn").textContent = dark ? "☀️ Light Mode" : "🌙 Dark Mode";
+    el("darkModeBtn").textContent = dark ? "Light Mode" : "Dark Mode";
     saveSettings()
   };
   el("cheatsMasterToggle").onchange = e => {
@@ -4692,6 +4712,7 @@
   let deletePaintState = null;
   let symmetryEnabled = false;
   let dragPlaceMode = false;
+  let touchDeleteMode = false;
   let gridCam = {
     x: COLS / 2,
     y: ROWS / 2,
@@ -4778,7 +4799,7 @@
     el("sfsModalBody").innerHTML = ""
   }
   el("sfsModalClose").onclick = closeModal;
-  el("sfsModalOverlay").addEventListener("mousedown", e => {
+  el("sfsModalOverlay").addEventListener("pointerdown", e => {
     if (e.target === el("sfsModalOverlay")) closeModal()
   });
   window.addEventListener("keydown", e => {
@@ -4939,7 +4960,7 @@
     tutorialStep = 0;
     updateTutorialUI();
     buildPalette();
-    openModal("Tutorial Complete! 🚀",
+    openModal("Tutorial Complete!",
       "<p>You built a rocket, launched it, and broke free of Earth’s gravity well. " +
       "That’s the core loop of Spaceflight Sim — from here, the rest of the solar system " +
       "(and beyond) is yours to explore.</p>" +
@@ -5126,14 +5147,14 @@
     }
     return false
   }
-  gridCanvas.addEventListener("mousedown", e => {
-    if (dragPlaceMode && (e.button === 0 || e.button === 2)) {
+  gridCanvas.addEventListener("pointerdown", e => {
+    if ((dragPlaceMode && (e.button === 0 || e.button === 2)) || (touchDeleteMode && e.pointerType === "touch")) {
       e.preventDefault();
       const {
         col: col,
         row: row
       } = cellFromEvent(e);
-      if (e.button === 0) {
+      if (e.button === 0 && !(touchDeleteMode && e.pointerType === "touch")) {
         paintState = {
           visited: new Set([col + "," + row])
         };
@@ -5159,19 +5180,19 @@
       }
     }
   });
-  gridCanvas.addEventListener("mousemove", e => {
+  gridCanvas.addEventListener("pointermove", e => {
     if (!panState) {
       hoverCell = cellFromEvent(e);
       drawGrid()
     }
   });
-  gridCanvas.addEventListener("mouseleave", () => {
+  gridCanvas.addEventListener("pointerleave", () => {
     if (!panState) {
       hoverCell = null;
       drawGrid()
     }
   });
-  window.addEventListener("mousemove", e => {
+  window.addEventListener("pointermove", e => {
     if (paintState || deletePaintState) {
       const {
         col: col,
@@ -5202,7 +5223,7 @@
       drawGrid()
     }
   });
-  window.addEventListener("mouseup", e => {
+  window.addEventListener("pointerup", e => {
     flightMouseDown = false;
     if (paintState) {
       paintState = null;
@@ -5221,6 +5242,17 @@
       attemptPlace(col, row)
     }
     panState = null;
+    drawGrid()
+  });
+  window.addEventListener("pointercancel", () => {
+    flightMouseDown = false;
+    paintState = null;
+    deletePaintState = null;
+    panState = null;
+    flightPan = null;
+    document.querySelectorAll(".rotate-hold").forEach(button => {
+      keys[button.dataset.key] = false
+    });
     drawGrid()
   });
   gridCanvas.addEventListener("contextmenu", e => {
@@ -5340,9 +5372,26 @@
   el("dragModeBtn").onclick = () => {
     dragPlaceMode = !dragPlaceMode;
     el("dragModeBtn").classList.toggle("active", dragPlaceMode);
+    el("touchDeleteBtn").classList.remove("active");
+    touchDeleteMode = false;
     panState = null;
     paintState = null;
     deletePaintState = null
+  };
+
+  el("touchDeleteBtn").onclick = () => {
+    touchDeleteMode = !touchDeleteMode;
+    el("touchDeleteBtn").classList.toggle("active", touchDeleteMode);
+    if (touchDeleteMode) {
+      dragPlaceMode = false;
+      el("dragModeBtn").classList.remove("active");
+      panState = null;
+      paintState = null;
+      deletePaintState = null
+    }
+  };
+  el("rotatePartBtn").onclick = () => {
+    window.dispatchEvent(new KeyboardEvent("keydown", { key: "r" }))
   };
 
   function drawGrid() {
@@ -6886,7 +6935,7 @@
       "<p>This code contains your ships, rocket designs, procedural systems, and settings. " +
       "Copy it somewhere safe, or download it as a text file.</p>" +
       '<textarea id="exportSaveText" readonly></textarea>' + '<div class="sfs-modal-actions">' +
-      '<button class="btn primary" id="exportCopyBtn">📋 Copy to Clipboard</button>' +
+      '<button class="btn primary" id="exportCopyBtn">Copy to Clipboard</button>' +
       '<button class="btn" id="exportDownloadBtn">⬇ Download .txt</button>' +
       '</div><div id="exportSaveMsg" style="font-size:11px;color:var(--ok);margin-top:6px;height:14px;"></div>');
     const ta = el("exportSaveText");
@@ -6926,7 +6975,7 @@
       "procedural systems, and settings, then reload the page.</p>" +
       '<textarea id="loadSaveText" placeholder="Paste your save code here..."></textarea>' +
       '<div class="sfs-modal-actions">' +
-      '<button class="btn" id="loadPasteBtn">📋 Paste from Clipboard</button>' +
+      '<button class="btn" id="loadPasteBtn">Paste from Clipboard</button>' +
       '<button class="btn primary" id="loadApplyBtn">Load Save</button>' +
       '</div><div id="loadSaveMsg" style="font-size:11px;margin-top:6px;height:14px;"></div>');
     el("loadPasteBtn").onclick = () => {
@@ -6956,7 +7005,7 @@
     const wrap = el("savesSlotsWrap");
     const open = wrap.style.display !== "none";
     wrap.style.display = open ? "none" : "block";
-    el("savesToggleBtn").textContent = open ? "🗂 Saves ▾" : "🗂 Saves ▴";
+    el("savesToggleBtn").textContent = open ? "Saves ▾" : "Saves ▴";
     if (!open) refreshSaveSlotMeta()
   };
   document.querySelectorAll("#savesSlotsWrap button[data-action]").forEach(btn => {
@@ -7856,6 +7905,18 @@
   window.addEventListener("keyup", e => {
     keys[e.key.toLowerCase()] = false
   });
+  document.querySelectorAll(".rotate-hold").forEach(button => {
+    const key = button.dataset.key;
+    button.addEventListener("pointerdown", e => {
+      e.preventDefault();
+      keys[key] = true;
+      button.setPointerCapture(e.pointerId)
+    });
+    const stopRotate = () => { keys[key] = false };
+    button.addEventListener("pointerup", stopRotate);
+    button.addEventListener("pointercancel", stopRotate);
+    button.addEventListener("lostpointercapture", stopRotate)
+  });
   const flightCanvas = el("flightCanvas");
   const fctx = flightCanvas.getContext("2d", {
     alpha: false
@@ -7933,9 +7994,9 @@
     }
   });
   if (el("camFreeBtn")) el("camFreeBtn").onclick = () => setCamFree(!camFree);
-  flightCanvas.addEventListener("mousedown", e => {
+  flightCanvas.addEventListener("pointerdown", e => {
     if (!camFree) return;
-    if (e.button === 1 || e.button === 2) {
+    if (e.button === 1 || e.button === 2 || e.pointerType === "touch") {
       e.preventDefault();
       flightPan = {
         lx: e.clientX,
@@ -7943,7 +8004,7 @@
       }
     }
   });
-  flightCanvas.addEventListener("mousemove", e => {
+  flightCanvas.addEventListener("pointermove", e => {
     if (!flightPan || !camFree) return;
     const dx = e.clientX - flightPan.lx,
       dy = e.clientY - flightPan.ly;
@@ -7957,18 +8018,18 @@
     camera.x -= wx;
     camera.y -= wy
   });
-  window.addEventListener("mouseup", () => {
+  window.addEventListener("pointerup", () => {
     flightPan = null
   });
   flightCanvas.addEventListener("contextmenu", e => {
     if (camFree) e.preventDefault()
   });
-  flightCanvas.addEventListener("mousemove", e => {
+  flightCanvas.addEventListener("pointermove", e => {
     const rect = flightCanvas.getBoundingClientRect();
     flightMousePos.x = e.clientX - rect.left;
     flightMousePos.y = e.clientY - rect.top
   });
-  flightCanvas.addEventListener("mousedown", e => {
+  flightCanvas.addEventListener("pointerdown", e => {
     if (e.button === 0) flightMouseDown = true
   });
   let _wtsAngle = null,
@@ -11599,6 +11660,8 @@
     `\nconst FADE_SECONDS = ${FADE_SECONDS};\nclass BytebeatProcessor extends AudioWorkletProcessor {\n  static get parameterDescriptors(){\n    return [{name:'volume', defaultValue:0.35, minValue:0, maxValue:1, automationRate:'k-rate'}];\n  }\n  constructor(){\n    super();\n    this.gains={atmo:0,interplanetary:1,soi:0,moonEurofunk:0,interstellar:0,nightVision:0,tauCeti:0,sgrA:0,build:0,signal:0,epic:0,legendary:0,rare:0,unusual:0};\n    this.targetGains={atmo:0,interplanetary:1,soi:0,moonEurofunk:0,interstellar:0,nightVision:0,tauCeti:0,sgrA:0,build:0,signal:0,epic:0,legendary:0,rare:0,unusual:0};\n    this.tfAtmo=0; this.tfInter=0; this.tfSoi=0; this.tfMoonEurofunk=0; this.tfInterstellar=0; this.tfNightVision=0; this.tfTauCeti=0; this.tfSgrA=0; this.tfBuild=0; this.tfSignal=0; this.tfEpic=0; this.tfLegendary=0; this.tfRare=0; this.tfUnusual=0;\n    this.fadeStep=1/(FADE_SECONDS*sampleRate);\n    this.semitones={interplanetary:0,soi:0,nightVision:0,tauCeti:0,sgrA:0,signal:0};\n    this.port.onmessage=(e)=>{\n      const d=e.data;\n      if(d&&d.type==='state'){\n        this.targetGains={atmo:0,interplanetary:0,soi:0,moonEurofunk:0,interstellar:0,nightVision:0,tauCeti:0,sgrA:0,build:0,signal:0,epic:0,legendary:0,rare:0,unusual:0};\n        this.targetGains[d.value]=1;\n        if(d.semitone!==undefined&&Object.prototype.hasOwnProperty.call(this.semitones,d.value)) this.semitones[d.value]=d.semitone;\n      }\n    };\n  }\n  process(inputs,outputs,parameters){\n    const out=outputs[0];\n    const L=out[0], R=out.length>1?out[1]:out[0];\n    const volArr=parameters.volume;\n    const vol=volArr.length>1?null:volArr[0];\n    const SEMI=1.059463094;\n    const mult=s=>SEMI**s;\n    const rAtmo=32000/sampleRate, rInter=48000*mult(this.semitones.interplanetary)/sampleRate, rSoi=48000*mult(this.semitones.soi)/sampleRate, rMoonEurofunk=53140/sampleRate, rInterstellar=48000/sampleRate, rNightVision=44100*mult(this.semitones.nightVision)/sampleRate, rTauCeti=36000*mult(this.semitones.tauCeti)/sampleRate, rSgrA=42782.78*mult(this.semitones.sgrA)/sampleRate, rBuild=56000/sampleRate, rSignal=44100*mult(this.semitones.signal)/sampleRate, rEpic=32768/sampleRate, rLegendary=60000/sampleRate, rRare=44100/sampleRate, rUnusual=44100/sampleRate;\n    for(let i=0;i<L.length;i++){\n      const v=vol!==null?vol:volArr[i];\n      for(const k in this.gains){\n        if(this.gains[k]<this.targetGains[k]) this.gains[k]=Math.min(this.targetGains[k],this.gains[k]+this.fadeStep);\n        else if(this.gains[k]>this.targetGains[k]) this.gains[k]=Math.max(this.targetGains[k],this.gains[k]-this.fadeStep);\n      }\n      this.tfAtmo+=rAtmo; this.tfInter+=rInter; this.tfSoi+=rSoi; this.tfMoonEurofunk+=rMoonEurofunk; this.tfInterstellar+=rInterstellar; this.tfNightVision+=rNightVision; this.tfTauCeti+=rTauCeti; this.tfSgrA+=rSgrA; this.tfBuild+=rBuild; this.tfSignal+=rSignal; this.tfEpic+=rEpic; this.tfLegendary+=rLegendary; this.tfRare+=rRare; this.tfUnusual+=rUnusual;\n      let l=0,r=0;\n      if(this.gains.atmo>0.0005){\n        const s=atmoTrack(Math.floor(this.tfAtmo));\n        l+=s[0]*this.gains.atmo; r+=s[1]*this.gains.atmo;\n      }\n      if(this.gains.interplanetary>0.0005){\n        const s=interplanetaryTrack(Math.floor(this.tfInter))*this.gains.interplanetary;\n        l+=s; r+=s;\n      }\n      if(this.gains.soi>0.0005){\n        const s=soiTrack(Math.floor(this.tfSoi))*this.gains.soi;\n        l+=s; r+=s;\n      }\n      if(this.gains.moonEurofunk>0.0005){\n        const s=moonEurofunkTrack(Math.floor(this.tfMoonEurofunk))*this.gains.moonEurofunk;\n        l+=s; r+=s;\n      }\n      if(this.gains.interstellar>0.0005){\n        const s=interstellarTrack(Math.floor(this.tfInterstellar));\n        l+=s[0]*this.gains.interstellar; r+=s[1]*this.gains.interstellar;\n      }\n      if(this.gains.nightVision>0.0005){\n        const s=nightVisionTrack(Math.floor(this.tfNightVision))*this.gains.nightVision;\n        l+=s; r+=s;\n      }\n      if(this.gains.tauCeti>0.0005){\n        const s=tauCetiTrack(Math.floor(this.tfTauCeti))*this.gains.tauCeti;\n        l+=s; r+=s;\n      }\n      if(this.gains.sgrA>0.0005){\n        const s=sgrATrack(Math.floor(this.tfSgrA))*this.gains.sgrA;\n        l+=s; r+=s;\n      }\n      if(this.gains.build>0.0005){\n        const s=buildTrack(Math.floor(this.tfBuild));\n        l+=s[0]*this.gains.build; r+=s[1]*this.gains.build;\n      }\n      if(this.gains.signal>0.0005){\n        const s=signalTrack(Math.floor(this.tfSignal))*this.gains.signal;\n        l+=s; r+=s;\n      }\n      if(this.gains.epic>0.0005){\n        const s=epicTrack(Math.floor(this.tfEpic))*this.gains.epic;\n        l+=s; r+=s;\n      }\n      if(this.gains.legendary>0.0005){\n        const s=legendaryTrack(Math.floor(this.tfLegendary));\n        l+=s[0]*this.gains.legendary; r+=s[1]*this.gains.legendary;\n      }\n      if(this.gains.rare>0.0005){\n        const s=rareTrack(Math.floor(this.tfRare))*this.gains.rare;\n        l+=s; r+=s;\n      }\n      if(this.gains.unusual>0.0005){\n        const s=oddationTrack(Math.floor(this.tfUnusual))*this.gains.unusual;\n        l+=s; r+=s;\n      }\n      L[i]=Math.max(-1,Math.min(1,l*v));\n      R[i]=Math.max(-1,Math.min(1,r*v));\n    }\n    return true;\n  }\n}\nregisterProcessor('bytebeat-processor', BytebeatProcessor);\n`;
   let musicCtx = null,
     musicNode = null,
+    musicBusGain = null,
+    musicBusMuted = null,
     musicVolume = .35,
     musicLastState = null,
     musicStarting = false;
@@ -11610,6 +11673,71 @@
   ];
   const MENU_MUSIC_CYCLE_MS = 12e4;
   let menuMusicCycleAnchor = null;
+  const FILE_MUSIC = {
+    menu: { name: "Kulakovka", src: "kulakovka-space-283176.mp3", loop: true },
+    spaceA: { name: "Leberch", src: "leberch-space-440026.mp3", loop: false },
+    spaceB: { name: "Atlas Audio", src: "atlasaudio-space-613336.mp3", loop: false }
+  };
+  const fileMusicPlayers = Object.fromEntries(Object.entries(FILE_MUSIC).map(([key, track]) => {
+    const player = new Audio(track.src);
+    player.preload = "none";
+    player.loop = track.loop;
+    player.volume = musicVolume;
+    return [key, player]
+  }));
+  let fileMusicCurrentKey = null;
+  let fileMusicUnlocked = false;
+  let nextSpaceTrack = "spaceA";
+  fileMusicPlayers.spaceA.addEventListener("ended", () => {
+    if (fileMusicCurrentKey === "spaceA") {
+      nextSpaceTrack = "spaceB";
+      fileMusicCurrentKey = null
+    }
+  });
+  fileMusicPlayers.spaceB.addEventListener("ended", () => {
+    if (fileMusicCurrentKey === "spaceB") {
+      nextSpaceTrack = "spaceA";
+      fileMusicCurrentKey = null
+    }
+  });
+
+  function isAboveKarmanLine(sh) {
+    if (!sh || sh.status !== "flying") return false;
+    return !sh._inAtmo
+  }
+
+  function setFileMusicBusMuted(muted) {
+    if (!musicBusGain || !musicCtx || musicBusMuted === muted) return;
+    musicBusMuted = muted;
+    const now = musicCtx.currentTime;
+    musicBusGain.gain.cancelScheduledValues(now);
+    musicBusGain.gain.setTargetAtTime(muted ? 0 : 1, now, .35)
+  }
+
+  function updateFileMusic() {
+    let desired = null;
+    if (el("menuScreen").classList.contains("active")) desired = "menu";
+    else if (el("flightScreen").classList.contains("active") && isAboveKarmanLine(activeShip())) {
+      if (fileMusicCurrentKey === "spaceA" || fileMusicCurrentKey === "spaceB") desired = fileMusicCurrentKey;
+      else desired = nextSpaceTrack
+    }
+    if (desired === fileMusicCurrentKey) {
+      const currentPlayer = desired && fileMusicPlayers[desired];
+      if (fileMusicUnlocked && currentPlayer && currentPlayer.paused) currentPlayer.play().catch(() => {});
+      return
+    }
+    if (fileMusicCurrentKey && fileMusicPlayers[fileMusicCurrentKey]) {
+      fileMusicPlayers[fileMusicCurrentKey].pause()
+    }
+    fileMusicCurrentKey = desired;
+    if (!desired) return;
+    if (fileMusicUnlocked) showToast("Song Playing: " + FILE_MUSIC[desired].name);
+    const player = fileMusicPlayers[desired];
+    player.volume = musicVolume;
+    if (desired === "spaceA") nextSpaceTrack = "spaceB";
+    else if (desired === "spaceB") nextSpaceTrack = "spaceA";
+    if (fileMusicUnlocked) player.play().catch(() => {})
+  }
 
   function resetMenuMusicCycle() {
     menuMusicCycleAnchor = null
@@ -11675,7 +11803,7 @@
     const semitone = currentMusicSemitone();
     const stateChanged = st !== musicLastState;
     if (stateChanged || semitone !== musicLastSemitone) {
-      if (stateChanged && SONG_NAMES[st]) showToast("Song Playing: " + SONG_NAMES[st]);
+      if (stateChanged && SONG_NAMES[st] && !fileMusicCurrentKey) showToast("Song Playing: " + SONG_NAMES[st]);
       musicLastState = st;
       musicLastSemitone = semitone;
       if (musicNode) {
@@ -11722,7 +11850,11 @@
         outputChannelCount: [2]
       });
       musicNode.parameters.get("volume").value = musicVolume;
-      musicNode.connect(musicCtx.destination);
+      musicBusGain = musicCtx.createGain();
+      musicBusMuted = !!fileMusicCurrentKey;
+      musicBusGain.gain.value = musicBusMuted ? 0 : 1;
+      musicBusGain.connect(musicCtx.destination);
+      musicNode.connect(musicBusGain);
       musicLastState = null;
       updateMusicState()
     } catch (err) {
@@ -11952,7 +12084,11 @@
           R[i] = Math.max(-1, Math.min(1, r * st.vol * declick))
         }
       };
-      musicScriptNode.connect(musicCtx.destination);
+      musicBusGain = musicCtx.createGain();
+      musicBusMuted = !!fileMusicCurrentKey;
+      musicBusGain.gain.value = musicBusMuted ? 0 : 1;
+      musicBusGain.connect(musicCtx.destination);
+      musicScriptNode.connect(musicBusGain);
       musicLastState = null;
       updateMusicState()
     } catch (err) {
@@ -11971,8 +12107,8 @@
   }
 
   function primeMusicOnGesture() {
-    startMusicEngine();
-    if (musicCtx && musicCtx.state === "suspended") musicCtx.resume();
+    fileMusicUnlocked = true;
+    updateFileMusic();
     window.removeEventListener("pointerdown", primeMusicOnGesture);
     window.removeEventListener("keydown", primeMusicOnGesture)
   }
@@ -11985,8 +12121,8 @@
     volSliderEl.addEventListener("input", e => {
       const pct = parseInt(e.target.value, 10);
       setMusicVolume(pct / 100);
-      if (volIconEl) volIconEl.textContent = pct === 0 ? "🔇" : pct < 50 ? "🔉" : "🔊";
-      if (!musicCtx) startMusicEngine()
+      Object.values(fileMusicPlayers).forEach(player => player.volume = musicVolume);
+      if (volIconEl) volIconEl.textContent = "VOL"
     })
   }
 
@@ -12059,6 +12195,7 @@
   }
 
   function loopInner(now) {
+    updateFileMusic();
     updateMusicState();
     const rawDt = (now - lastT) / 1e3;
     const realDt = Math.min(.05, rawDt);
